@@ -28,6 +28,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Map;
 
+import static example.com.smu_3_demo.Main2Activity.DEMO_PREFERENCE;
+import static example.com.smu_3_demo.Main2Activity.getPref;
+
 public class MainActivity extends AppCompatActivity {
 
     private ArrayAdapter<String> mListAdapter;
@@ -44,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long I) {
                 String name = (String) adapterView.getAdapter().getItem(i);
-                SharedPreferences pref = Main2Activity.getPref(MainActivity.this);
+                SharedPreferences pref = getPref(MainActivity.this);
                 String code = pref.getString(name, "UNKNOWN");
 
                 Intent intent = new Intent(MainActivity.this, Main3Activity.class);
@@ -57,8 +60,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public void onClick(View view) {
-
         Toast.makeText(MainActivity.this, "Sending to 병무청 is completed", Toast.LENGTH_SHORT).show();
+        SharedPreferences mPref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        
+        SharedPreferences.Editor editor = mPref.edit();
+        editor.remove("key");
+        editor.commit();
+        
 
     }
 
@@ -72,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void refresh() {
         Log.d("MainActivity", "refreshhhhhhhhh");
-        SharedPreferences pref = Main2Activity.getPref(this);
+        SharedPreferences pref = getPref(this);
 
         mListAdapter.clear();
         Map<String, ?>values = pref.getAll();
